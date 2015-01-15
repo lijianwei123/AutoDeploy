@@ -1,0 +1,22 @@
+#Tue Aug 12 13:08:22 CST 2014
+eclipse.preferences.version=1
+encoding//client/EnvCheck.py=utf-8
+encoding//client/client.py=utf-8
+encoding//client/g.py=utf-8
+encoding//client/index.py=utf-8
+encoding//client/setting.py=utf-8
+encoding//client/setup.py=utf-8
+encoding//client/test.py=utf-8
+encoding//common/argv_opt.py=utf8
+encoding//common/command.py=utf-8
+encoding//common/util.py=utf-8
+encoding//server/api.py=utf-8
+encoding//server/g.py=utf-8
+encoding//server/index.py=utf-8
+encoding//server/server.py=utf-8
+encoding//server/setting.py=utf-8
+encoding//server/setup.py=utf-8
+encoding//server/test.py=utf-8
+encoding//server/tmp/index.py=utf-8
+encoding//server/tmp/test2.py=utf-8
+encoding//server/watchdir.py=utf-8

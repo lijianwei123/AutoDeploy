@@ -1,0 +1,72 @@
+{% extends "layout/main.html" %}
+
+{% block page_css %}
+<style type="text/css">
+.space{
+margin: 0 10px;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="container" >
+       <div class="page-header">
+            <h1>业务列表</h1>
+       </div>
+         
+       <ol class="breadcrumb">
+             <li><a href="{{ cherrypy.url('/') }}">业务列表</a></li>
+       </ol>
+       
+        
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h3>监控的路径</h3>
+                <ul class="list-group">
+                    {% for moduleName, path in modules.items() %}
+                         <li class="list-group-item"><a href="{{ cherrypy.url('/list', {'module': moduleName}) }}">{{ moduleName }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+          </div>
+          
+          <div class="row" id="monitor-info">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+               <h3>服务器&程序status</h3>
+               <ul class="list-group">
+                    <li class="list-group-item">加载中。。。。</li>
+               </ul>
+            </div>
+          </div>
+    </div>
+{% endblock %}
+
+{% block footer_script %}
+<script type="text/html" id="monitor-info-template" data-post="{{ cherrypy.url('/monitorInfo') }}">
+<div class="col-md-12 col-sm-12 col-xs-12">
+<h3>服务器&程序status</h3>
+<ul class="list-group">
+   <li class="list-group-item">总的内存: <%=totalMem.total%>M <span class="space"></span>  已使用:  <%=totalMem.used%>M</li>
+   <li class="list-group-item">CPU: <%=cpuPercent%>%</li>
+   
+   <li class="list-group-item"></li>
+   
+   <li class="list-group-item">进程占有内存: <%=proc.proMem%>M</li>
+   <li class="list-group-item">进程占有内存比: <%=proc.proMemPercent%>%</li>
+   <li class="list-group-item">进程占有cpu比: <%=proc.proCpuPercent%>%</li>
+    
+   <li class="list-group-item"></li>
+
+   <li class="list-group-item">客户端个数: <%=clientNum%></li>
+   <% for(var i in addrs) { %>
+   <li class="list-group-item">IP&Port: <%=addrs[i][0]%>:<%=addrs[i][1]%></li>
+   <% } %>
+</ul>
+</div>
+</script>
+
+<script type="text/javascript">
+    L.run('app/index')
+</script>
+
+{% endblock %}

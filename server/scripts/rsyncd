@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# rsyncd
+# chkconfig: - 85 15
+# description: rsyncd
+# processname: rsync
+# config: /usr/local/rsync/etc/rsyncd.conf
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+# Source networking configuration.
+. /etc/sysconfig/network
+
+
+PATH=PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+RETVAL=0
+prog="rsyncd"
+base=/usr/local/rsync
+pidfile=${base}/log/${prog}.pid
+startCmd="rsync --daemon --config=${base}/etc/${prog}.conf"
+
+start() {
+     echo  $"start $prog: "
+	 `$startCmd`       	 
+	 return $RETVAL
+}
+
+stop() {
+        # Stop daemons.
+        echo  $"Shutting down $prog: "
+        kill -USR1 `cat ${pidfile}`
+        RETVAL=$?
+        echo
+        return $RETVAL
+}
+
+restart() {
+	echo "restart $prog"
+    stop
+    start
+}
+
+# See how we were called.
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+   stop
+   ;;
+  restart)
+   restart
+    ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $RETVAL

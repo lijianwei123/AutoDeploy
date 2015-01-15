@@ -1,0 +1,70 @@
+#!/bin/sh
+
+# AutoDeployClient
+# chkconfig: - 85 15
+# description: AutoDeployClient
+# processname: AutoDeployClient
+# config: /etc/vsftpd/vsftpd.conf
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+# Source networking configuration.
+. /etc/sysconfig/network
+
+
+PATH=PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+RETVAL=0
+prog="AutoDeployClient"
+base=.
+pidfile=${base}/${prog}.pid
+startCmd="python ${base}/index.py"
+
+start() {
+	 `$startCmd`       	 
+	 return $RETVAL
+}
+
+stop() {
+        # Stop daemons.
+        echo -n $"Shutting down $prog: "
+        kill `cat ${pidfile}`
+        RETVAL=$?
+        echo
+        return $RETVAL
+}
+
+force_close() {
+	echo "force_close $prog"
+	local pid=`ps -ef|grep index.py|grep -v grep|awk '{print $2}'`
+	if [ -z $pid ]; then
+		echo "$prog don't running"
+		exit 1	
+	fi
+	`kill -9 $pid`
+	RETVAL=$?
+	if [ $RETVAL = 0 ]; then
+		echo "force close success!"
+	else 
+		return $RETVAL
+	fi
+}
+
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  force_close)
+	force_close
+	;;
+  *)
+        echo $"Usage: $0 {start|stop|force_close}"
+        exit 1
+esac
+
+exit $RETVAL
